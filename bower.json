@@ -1,0 +1,22 @@
+{
+  "name": "ic4f",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "nhducit <nhducit@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.2",
+    "react": "^0.14.7"
+  }
+}

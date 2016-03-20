@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="main">
+
+  <div>
+    <input type="text" ng-model="url">
+    <button type="button" ng-click="getImages()"> Get Images</button>
+  </div>
+
+
+  <div ng-repeat="image in images">
+    <img ng-src="{{image}}" alt="blah">
+  </div>
+
+
+</div>
+
+<!--<script defer src ="../client/mainController.js" ></script>-->
+<script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js" ></script>
+<script type="text/javascript">
+  (function () {
+    angular.module('myApp', [])
+      .controller('main', mainController);
+
+    mainController.$inject = ['$http', '$scope'];
+    function mainController($http, $scope) {
+      $scope.url = 'https://vozforums.com/showthread.php?t=3018723&page=1';
+      $scope.images = [];
+      $scope.getImages = function () {
+        $http.post('/getImages', {url: $scope.url}).then(function (successData) {
+          $scope.images = successData.data;
+        }, function () {
+          ;
+        });
+      };
+      $scope.getImages();
+    }
+  })();
+</script>
+<!--<script defer src ="../../bower_components/react/react.js" ></script>-->
+<!--<script defer src ="../../bower_components/react/react-dom.js" ></script>-->
+<!--<script defer src ="../../bower_components/react/react-with-addons.js" ></script>-->
+<!--<script defer src ="../../bower_components/react/react-dom-server.js" ></script>-->
+</body>
+</html>
