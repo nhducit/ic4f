@@ -60,7 +60,7 @@ function getImages(htmlString) {
  * @returns {*}
  */
 function getImagesInMultiplePage(url) {
-  var max = 347;
+  var max = 10;
   var promises = [];
   var pageUrl;
   // var promise = new Promise();
