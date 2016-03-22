@@ -10,3 +10,8 @@ npm start
 ```
 open this url: localhost:3000
 
+feature:
+- choose first page to view picture.
+- choose max page.
+- remove broken images
+- remove duplicated images

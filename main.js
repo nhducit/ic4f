@@ -22,14 +22,14 @@ app.get('/', function(req, res) {
 
 app.post('/getImages', function (req, res) {
   var result ;
-  // lib.getImagesInMultiplePage(req.body.url).then(function (images) {
-  //   result = images;
-  //   res.send(images);
-  // });
-    lib.getImagesInOnePage(req.body.url).then(function (images) {
-      result = images;
-      res.send(images);
-    });
+  lib.getImagesInMultiplePage(req.body.url, req.body.config).then(function (images) {
+    result = images;
+    res.send(images);
+  });
+  //   lib.getImagesInOnePage(req.body.url).then(function (images) {
+  //     result = images;
+  //     res.send(images);
+  //   });
 });
 
 app.listen(3000, function () {

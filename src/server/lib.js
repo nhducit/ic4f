@@ -37,12 +37,16 @@ function getImagesInOnePage(url) {
     });
 }
 
+function isStartWithHttpOrHttps(link) {
+  return link.indexOf('http') === 0 || link.indexOf('https') === 0;
+}
+
 function imageFilter(link) {
-  if(!link){
+  if (!link || !isStartWithHttpOrHttps(link)) {
     return;
   }
-  var keywords = ['http', 'https'];
-  return _.some(keywords, function (keyword) {
+  var blackListKeyword = ['http://vozforums.com/specials', 'http://www.google.com/'];
+  return !_.some(blackListKeyword, function (keyword) {
     return link.indexOf(keyword) === 0;
   });
 }
@@ -55,16 +59,15 @@ function imageFilter(link) {
  */
 function getImages(htmlString) {
   var $ = cheerio.load(htmlString);
-  // var posts = $('div#posts div.voz-post-message img');
-  var posts = $('img');
-
-  var images = _.chain(posts).filter(function (image) {
-    var imageSrc = image.attribs.src;
-    return imageFilter(imageSrc);
-  }).map(function (image) {
-    return image.attribs.src;
-  }).uniq().value();
-  return images;
+  return _.chain($('img'))
+    .map(function (image) {
+      return _.get(image, 'attribs.src', '');
+    })
+    .filter(function (imageSrc) {
+      return imageFilter(imageSrc);
+    })
+    .uniq()
+    .value();
 }
 
 /**
@@ -72,29 +75,22 @@ function getImages(htmlString) {
  * @param url
  * @returns {*}
  */
-function getImagesInMultiplePage(url) {
-  var max = 10;
+function getImagesInMultiplePage(url, config) {
   var promises = [];
   var pageUrl;
+  var _config = config;
+  _config.firstPage = _config.firstPage || 1;
+  _config.maxPage = _config.maxPage || 1;
   // var promise = new Promise();
-  _.times(max, function (i) {
-    pageUrl = getPageUrl(url, i);
-    promises.push(getImagesInOnePage(pageUrl).then(function (images) {
-      ;
-    }));
+  _.times(config.maxPage, function (i) {
+    pageUrl = getPageUrl(url, _config.firstPage + i + 1);
+    promises.push(getImagesInOnePage(pageUrl));
   });
   return Promise.all(promises).then(function (array) {
     var result = [];
-    var mapping = {};
     _.forEach(array, function (images) {
       result = result.concat(images);
     });
-    // _.forEach(result, function (image) {
-    //   if (!mapping[image]) {
-    //     mapping[image] = image;
-    //     result.push(image);
-    //   }
-    // });
     result = _.uniq(result);
     return result;
   });
@@ -121,12 +117,12 @@ function getLastPageNumber($) {
   title = title.title;
   var lastPage = _.last(title.split(' '));
   lastPage = parseInt(lastPage.replace(/,/g, ''), 10);
-  lastPage = parseInt(lastPage/10, 10);
+  lastPage = parseInt(lastPage / 10, 10);
   return lastPage;
 }
 
-var url = 'https://vozforums.com/showthread.php?t=3018723';
-getImagesInMultiplePage(url);
+// var url = 'https://vozforums.com/showthread.php?t=4590241';
+// getImagesInMultiplePage(url);
 
 /**
  *
