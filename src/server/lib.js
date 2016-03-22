@@ -63,9 +63,12 @@ function getImagesInMultiplePage(url) {
   var max = 347;
   var promises = [];
   var pageUrl;
+  // var promise = new Promise();
   _.times(max, function (i) {
     pageUrl = getPageUrl(url, i);
-    promises.push(getImagesInOnePage(pageUrl));
+    promises.push(getImagesInOnePage(pageUrl).then(function (images) {
+      ;
+    }));
   });
   return Promise.all(promises).then(function (array) {
     var result = [];

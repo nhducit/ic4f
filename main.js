@@ -1,11 +1,11 @@
-var lib = require('./lib');
+var lib = require('./src/server/lib');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-app.use(express.static('./client'));
+app.use(express.static('./src/client'));
 
 
 // var url = 'https://vozforums.com/showthread.php?t=3018723';
@@ -17,7 +17,7 @@ app.use(express.static('./client'));
 
 app.get('/', function(req, res) {
   console.log('__dirname', __dirname);
-  res.sendFile(path.join(__dirname + '/index.html'));
+  res.sendFile(path.join(__dirname + 'src/client/index.html'));
 });
 
 app.post('/getImages', function (req, res) {
