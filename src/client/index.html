@@ -22,7 +22,7 @@
     <button type="button" ng-click="getImages()"> Get Images</button>
   </div>
 
-  <div ng-repeat="image in images">
+  <div ng-repeat="image in images track by image.url">
     <img ng-src="{{image.url}}" alt="blah" onError="this.remove()">
   </div>
 
@@ -47,6 +47,7 @@
         firstPage: 1
       };
       $scope.getImages = function () {
+        $scope.images = [];
         oboe({
           url: 'getImages',
           method: 'post',
