@@ -15,3 +15,4 @@ feature:
 - choose max page.
 - remove broken images
 - remove duplicated images
+- support gif pictures

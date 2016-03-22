@@ -79,11 +79,12 @@ function getImagesInMultiplePage(url, config) {
   var promises = [];
   var pageUrl;
   var _config = config;
-  _config.firstPage = _config.firstPage || 1;
-  _config.maxPage = _config.maxPage || 1;
+  _config.firstPage = parseInt(_config.firstPage, 10) || 1;
+  _config.maxPage = parseInt(_config.maxPage) || 1;
   // var promise = new Promise();
   _.times(config.maxPage, function (i) {
-    pageUrl = getPageUrl(url, _config.firstPage + i + 1);
+    pageUrl = getPageUrl(url, _config.firstPage + i);
+    console.log('pageUrl', pageUrl);
     promises.push(getImagesInOnePage(pageUrl));
   });
   return Promise.all(promises).then(function (array) {
@@ -103,6 +104,9 @@ function getImagesInMultiplePage(url, config) {
  * @returns {string}
  */
 function getPageUrl(url, pageNum) {
+  if(!pageNum){
+    return url;
+  }
   return url + '&page=' + pageNum;
 }
 
@@ -122,6 +126,8 @@ function getLastPageNumber($) {
 }
 
 // var url = 'https://vozforums.com/showthread.php?t=4590241';
+//https://vozforums.com/showthread.php?t=4270819
+//https://vozforums.com/showthread.php?t=4302565
 // getImagesInMultiplePage(url);
 
 /**

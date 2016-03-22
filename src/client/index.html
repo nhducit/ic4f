@@ -24,7 +24,7 @@
 
 
   <div ng-repeat="image in images">
-    <img ng-src="{{image}}" alt="blah" onError="{{this.remove()}}">
+    <img ng-src="{{image}}" alt="blah" onError="this.remove()">
   </div>
 
 
@@ -39,11 +39,11 @@
 
     mainController.$inject = ['$http', '$scope'];
     function mainController($http, $scope) {
-      $scope.url = 'https://vozforums.com/showthread.php?t=4270819&page=1';
+      $scope.url = 'https://vozforums.com/showthread.php?t=4270819';
       $scope.images = [];
       $scope.maxPage = 10;
       $scope.config = {
-        maxPage: 10,
+        maxPage: 1,
         firstPage: 1
       };
       $scope.getImages = function () {
