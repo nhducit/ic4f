@@ -37,6 +37,17 @@ function getImagesInOnePage(url) {
     });
 }
 
+function imageFilter(link) {
+  if(!link){
+    return;
+  }
+  var keywords = ['http', 'https'];
+  return _.some(keywords, function (keyword) {
+    return link.indexOf(keyword) === 0;
+  });
+}
+
+
 /**
  *
  * @param htmlString
@@ -44,13 +55,15 @@ function getImagesInOnePage(url) {
  */
 function getImages(htmlString) {
   var $ = cheerio.load(htmlString);
-  var posts = $('div#posts div.voz-post-message img');
+  // var posts = $('div#posts div.voz-post-message img');
+  var posts = $('img');
+
   var images = _.chain(posts).filter(function (image) {
     var imageSrc = image.attribs.src;
-    return imageSrc.indexOf('images') !== 0 && imageSrc.indexOf('images') !== 1;
+    return imageFilter(imageSrc);
   }).map(function (image) {
     return image.attribs.src;
-  }).value();
+  }).uniq().value();
   return images;
 }
 
