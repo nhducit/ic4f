@@ -22,16 +22,16 @@
     <button type="button" ng-click="getImages()"> Get Images</button>
   </div>
 
-
   <div ng-repeat="image in images">
-    <img ng-src="{{image}}" alt="blah" onError="this.remove()">
+    <img ng-src="{{image.url}}" alt="blah" onError="this.remove()">
   </div>
 
 
 </div>
 
 <!--<script defer src ="../client/mainController.js" ></script>-->
-<script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js" ></script>
+<script src ="bower_components/angular/angular.js" ></script>
+<script src ="bower_components/oboe/dist/oboe-browser.js" ></script>
 <script type="text/javascript">
   (function () {
     angular.module('myApp', [])
@@ -47,11 +47,25 @@
         firstPage: 1
       };
       $scope.getImages = function () {
-        $http.post('/getImages', {url: $scope.url, config: $scope.config}).then(function (successData) {
-          $scope.images = successData.data;
-        }, function () {
-          ;
-        });
+        oboe({
+          url: 'getImages',
+          method: 'post',
+          body: {
+            url: $scope.url,
+            config: $scope.config
+          }
+        })
+          .node('data.*', function (image) {
+            $scope.$apply(function () {
+              $scope.images.push(image);
+            });
+          });
+
+//        $http.post('/getImages', {url: $scope.url, config: $scope.config}).then(function (successData) {
+//          $scope.images = successData.data.data;
+//        }, function () {
+//          ;
+//        });
       };
       $scope.getImages();
     }

@@ -75,7 +75,7 @@ function getImages(htmlString) {
  * @param url
  * @returns {*}
  */
-function getImagesInMultiplePage(url, config) {
+function getImagesInMultiplePageTest(url, config) {
   var promises = [];
   var pageUrl;
   var _config = config;
@@ -86,6 +86,38 @@ function getImagesInMultiplePage(url, config) {
     pageUrl = getPageUrl(url, _config.firstPage + i);
     console.log('pageUrl', pageUrl);
     promises.push(getImagesInOnePage(pageUrl));
+  });
+  return Promise.all(promises).then(function (array) {
+    var result = [];
+    _.forEach(array, function (images) {
+      result = result.concat(images);
+    });
+    result = _.uniq(result);
+    return result;
+  });
+}
+
+/**
+ * 
+ * @param url
+ * @param config
+ * @param progressFn
+ * @returns {*}
+ */
+function getImagesInMultiplePage(url, config, progressFn) {
+  var promises = [];
+  var pageUrl;
+  var _config = config;
+  _config.firstPage = parseInt(_config.firstPage, 10) || 1;
+  _config.maxPage = parseInt(_config.maxPage) || 1;
+  // var promise = new Promise();
+  _.times(config.maxPage, function (i) {
+    pageUrl = getPageUrl(url, _config.firstPage + i);
+    console.log('pageUrl', pageUrl);
+    promises.push(getImagesInOnePage(pageUrl).then(function (successData) {
+      progressFn(successData);
+      return successData;
+    }));
   });
   return Promise.all(promises).then(function (array) {
     var result = [];
