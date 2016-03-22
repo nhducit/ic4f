@@ -19,4 +19,4 @@ feature:
 - support gif pictures
 
 ## Todo
-- [ ] stream response
+- [x] stream response
