@@ -25,13 +25,18 @@
     Received {{images.length}} images:
   </div>
   <div>
-    {{util.brokenImage}} broken images:
+    {{images.length - counter.displayedImages - counter.brokenImage}} pending images:
   </div>
   <div>
-    Display {{images.length - util.brokenImage || 0}} images:
+    Display {{counter.displayedImages || 0}} images:
   </div>
+  <div>
+    {{counter.brokenImage}} broken images:
+  </div>
+
   <div ng-repeat="image in images track by image.url">
-    <img hd-onerror="brokenImageHandler" ng-src="{{image.url}}" alt="blah" onError="this.remove();"
+    <img hd-onerror="brokenImageHandler" hd-onload="onImageLoaded"
+         ng-src="{{image.url}}" alt="blah" onError="this.remove();"
          style="max-width:1200px;">
   </div>
 
@@ -54,6 +59,13 @@
           var elem = angular.element($elem);
           elem.bind('error', function () {
             var func = $parse($attr.hdOnerror)($scope);
+            $scope.$evalAsync(function () {
+              func();
+            })
+          });
+
+          elem.bind('load', function () {
+            var func = $parse($attr.hdOnload)($scope);
             $scope.$evalAsync(function () {
               func();
             })
@@ -82,15 +94,21 @@
         maxPage: 1,
         firstPage: 1
       };
-      $scope.util = {};
-      $scope.util.brokenImage = 0;
+      //last object is fake object for work around.
+      $scope.counter = {};
+      $scope.counter.brokenImage = 0;
+      $scope.counter.displayedImages = 0;
       $scope.brokenImageHandler = function () {
-        $scope.util.brokenImage++;
+        $scope.counter.brokenImage++;
+      };
+      $scope.onImageLoaded = function () {
+        $scope.counter.displayedImages++;
       };
       $scope.getImages = function () {
         $scope.images = [];
         $scope.imagesMap = {};
-        $scope.util.brokenImage = 0;
+        $scope.counter.brokenImage = 0;
+        $scope.counter.displayedImages = 0;
         oboe({
           url: 'getImages',
           method: 'post',
