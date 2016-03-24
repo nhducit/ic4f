@@ -21,21 +21,47 @@
     </div>
     <button type="button" ng-click="getImages()"> Get Images</button>
   </div>
-  Received {{images.length}} images (include broken image):
+  <div>
+    Received {{images.length}} images:
+  </div>
+  <div>
+    {{util.brokenImage}} broken images:
+  </div>
+  <div>
+    Display {{images.length - util.brokenImage || 0}} images:
+  </div>
   <div ng-repeat="image in images track by image.url">
-    <img ng-src="{{image.url}}" alt="blah" onError="this.remove()" style="max-width:1200px;">
+    <img hd-onerror="brokenImageHandler" ng-src="{{image.url}}" alt="blah" onError="this.remove();"
+         style="max-width:1200px;">
   </div>
 
 
 </div>
 
 <!--<script defer src ="../client/mainController.js" ></script>-->
-<script src ="bower_components/angular/angular.js" ></script>
-<script src ="bower_components/oboe/dist/oboe-browser.js" ></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/oboe/dist/oboe-browser.js"></script>
 <script type="text/javascript">
   (function () {
     angular.module('myApp', [])
-      .controller('main', mainController);
+      .controller('main', mainController)
+      .directive('hdOnerror', hdOnerror);
+
+    function hdOnerror($parse) {
+      return {
+        restrict: 'A',
+        link: function ($scope, $elem, $attr) {
+          var elem = angular.element($elem);
+          elem.bind('error', function () {
+            var func = $parse($attr.hdOnerror)($scope);
+            $scope.$evalAsync(function () {
+              func();
+            })
+          });
+        }
+      };
+    }
+
 
     mainController.$inject = ['$http', '$scope'];
     function mainController($http, $scope) {
@@ -47,9 +73,15 @@
         maxPage: 1,
         firstPage: 1
       };
+      $scope.util = {};
+      $scope.util.brokenImage = 0;
+      $scope.brokenImageHandler = function () {
+        $scope.util.brokenImage++;
+      };
       $scope.getImages = function () {
         $scope.images = [];
         $scope.imagesMap = {};
+        $scope.brokenImage = 0;
         oboe({
           url: 'getImages',
           method: 'post',
@@ -59,7 +91,7 @@
           }
         })
           .node('data.*', function (image) {
-            if(!$scope.imagesMap[image.url]){
+            if (!$scope.imagesMap[image.url]) {
               $scope.imagesMap[image.url] = true;
               $scope.$evalAsync(function () {
                 $scope.images.push(image);
