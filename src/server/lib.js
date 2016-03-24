@@ -72,7 +72,7 @@ function getImages(htmlString) {
 
 /**
  *
- * @param url
+ * @param url``
  * @returns {*}
  */
 function getImagesInMultiplePageTest(url, config) {
@@ -98,7 +98,7 @@ function getImagesInMultiplePageTest(url, config) {
 }
 
 /**
- * 
+ *
  * @param url
  * @param config
  * @param progressFn
@@ -136,7 +136,7 @@ function getImagesInMultiplePage(url, config, progressFn) {
  * @returns {string}
  */
 function getPageUrl(url, pageNum) {
-  if(!pageNum){
+  if (!pageNum) {
     return url;
   }
   return url + '&page=' + pageNum;

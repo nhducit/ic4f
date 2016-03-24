@@ -21,9 +21,9 @@
     </div>
     <button type="button" ng-click="getImages()"> Get Images</button>
   </div>
-
+  Received {{images.length}} images (include broken image):
   <div ng-repeat="image in images track by image.url">
-    <img ng-src="{{image.url}}" alt="blah" onError="this.remove()">
+    <img ng-src="{{image.url}}" alt="blah" onError="this.remove()" style="max-width:1200px;">
   </div>
 
 
@@ -41,6 +41,7 @@
     function mainController($http, $scope) {
       $scope.url = 'https://vozforums.com/showthread.php?t=4270819';
       $scope.images = [];
+      $scope.imagesMap = {};
       $scope.maxPage = 10;
       $scope.config = {
         maxPage: 1,
@@ -48,6 +49,7 @@
       };
       $scope.getImages = function () {
         $scope.images = [];
+        $scope.imagesMap = {};
         oboe({
           url: 'getImages',
           method: 'post',
@@ -57,9 +59,12 @@
           }
         })
           .node('data.*', function (image) {
-            $scope.$apply(function () {
-              $scope.images.push(image);
-            });
+            if(!$scope.imagesMap[image.url]){
+              $scope.imagesMap[image.url] = true;
+              $scope.$evalAsync(function () {
+                $scope.images.push(image);
+              });
+            }
           });
 
 //        $http.post('/getImages', {url: $scope.url, config: $scope.config}).then(function (successData) {

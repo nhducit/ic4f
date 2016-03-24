@@ -21,14 +21,25 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + 'src/client/index.html'));
 });
 
-app.post('/getImages', function (req, res) {
+app.post('/getImages', streamResponse);
+function sendAll(req, res) {
+  lib.test(req.body.url, req.body.config).then(function (images) {
+    res.json(images);
+  });
+}
+
+function streamResponse(req, res) {
   var result ;
   var JSON_MIME_TYPE = "application/octet-stream";
   res.setHeader("Content-Type", JSON_MIME_TYPE);
   res.writeHead(200);
+  var mapping = {};
   function handlePartial(partialData) {
     _.each(partialData, function (url) {
-      res.write(JSON.stringify({url: url}) + ',');
+      if(!mapping[url]){
+        mapping[url] = true;
+        res.write(JSON.stringify({url: url}) + ',');
+      }
     });
 
   }
@@ -43,8 +54,7 @@ app.post('/getImages', function (req, res) {
   //     result = images;
   //     res.send(images);
   //   });
-});
-
+}
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
