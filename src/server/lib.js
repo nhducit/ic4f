@@ -19,6 +19,15 @@ var lastPage = 1;
 var images = [];
 var imageMapping = {};
 
+//...some stuff to get my proxy config (credentials, host and port)
+// var proxyUrl = "http://" + user + ":" + password + "@" + host + ":" + port;
+//
+// var proxiedRequest = request.defaults({'proxy': proxyUrl});
+//
+// proxiedRequest.get("http://foo.bar", function (err, resp, body) {
+//   ...
+// })
+
 /**
  *
  * @param url
