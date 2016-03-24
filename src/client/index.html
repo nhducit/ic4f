@@ -65,6 +65,15 @@
 
     mainController.$inject = ['$http', '$scope'];
     function mainController($http, $scope) {
+      /*
+       * https://vozforums.com/showthread.php?t=4590241
+       *https://vozforums.com/showthread.php?t=4270819
+       *https://vozforums.com/showthread.php?t=4302565
+       *https://vozforums.com/showthread.php?t=2065093
+       *https://vozforums.com/showthread.php?t=3182265
+       *https://vozforums.com/showthread.php?t=2065093
+       * */
+
       $scope.url = 'https://vozforums.com/showthread.php?t=4270819';
       $scope.images = [];
       $scope.imagesMap = {};
@@ -81,7 +90,7 @@
       $scope.getImages = function () {
         $scope.images = [];
         $scope.imagesMap = {};
-        $scope.brokenImage = 0;
+        $scope.util.brokenImage = 0;
         oboe({
           url: 'getImages',
           method: 'post',
