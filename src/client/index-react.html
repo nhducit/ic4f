@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Hello React!</title>
+  <script src="build/react.js"></script>
+  <script src="build/react-dom.js"></script>
+  <script src="bower_components/oboe/dist/oboe-browser.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+  var imagesMap = {};
+  var images = [];
+  var url = 'https://vozforums.com/showthread.php?t=4270819';
+  var config = {
+    maxPage: 1,
+    firstPage: 1
+  };
+  oboe({
+    url: 'getImages',
+    method: 'post',
+    body: {
+      url: url,
+      config: config
+    }
+  })
+    .node('data.*', function (image) {
+      if (!imagesMap[image.url]) {
+        imagesMap[image.url] = true;
+        images.push(image);
+      }
+    });
+  var CommentBox = React.createClass({
+    render: function() {
+      var imageEle = [];
+
+      images.forEach(function(image){
+        imageEle.push(<image src="{image.url}" />);
+      });
+
+      return (
+        <div className="commentBox">
+          Hello, world! I am a CommentBox.
+          <div>
+            <button onClick="{}">Get Images</button>
+          </div>
+        </div>
+      );
+    }
+  });
+
+  ReactDOM.render(
+    <CommentBox />
+    ,
+    document.getElementById('example')
+  );
+</script>
+</body>
+</html>
