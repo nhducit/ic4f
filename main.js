@@ -1,14 +1,20 @@
 var lib = require('./src/server/lib');
 var express = require('express');
+var fs = require('fs');
+var https = require('https');
 var path = require('path');
 var _ = require('lodash');
 var bodyParser = require('body-parser');
 var app = express();
+
+// https.createServer({
+//   key: fs.readFileSync('key.pem'),
+//   cert: fs.readFileSync('cert.pem')
+// }, app).listen(3333);
+
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(express.static('./src/client'));
-
-
 // var url = 'https://vozforums.com/showthread.php?t=3018723';
 //
 // lib.getImagesInOnePage(url, function (images) {
@@ -55,6 +61,9 @@ function streamResponse(req, res) {
   //     res.send(images);
   //   });
 }
-app.listen(3333, function () {
-  console.log('Example app listening on port 3000!');
+
+
+app.listen(3456, function () {
+  console.log('Example app listening on port 3456!');
 });
+

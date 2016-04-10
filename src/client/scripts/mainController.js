@@ -1,5 +1,6 @@
 (function () {
-  angular.module('myApp', ['afkl.lazyImage'])
+  // angular.module('myApp', ['afkl.lazyImage'])
+  angular.module('myApp', [])
     .controller('main', mainController)
     .directive('hdOnerror', hdOnerror);
 
@@ -82,6 +83,6 @@
 //          ;
 //        });
     };
-    $scope.getImages();
+    // $scope.getImages();
   }
 })();

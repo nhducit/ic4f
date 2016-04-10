@@ -20,3 +20,11 @@ feature:
 
 ## Todo
 - [x] stream response
+- [x] use https
+- [ ] add nginx
+- [ ] serve static file use nginx
+- [ ] apply service worker
+- [ ] apply web worker
+- [ ] lazy load
+- [ ] cancel request in service worker. reproduce steps: get images from 100 pages, repeat the request. 
+expected behavior, second request should stop service worker fetch on going  request

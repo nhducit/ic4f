@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-  <link rel="stylesheet" type="text/css" href="bower_components/ng-directive-lazy-image/release/lazy-image-style.css">
+  <!--<link rel="stylesheet" type="text/css" href="bower_components/ng-directive-lazy-image/release/lazy-image-style.css">-->
   <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body ng-app="myApp">
@@ -40,25 +40,22 @@
 
 
   <div ng-repeat="image in images track by image.url">
-    <div afkl-lazy-image="{{image.url}}"
-         class="afkl-lazy-wrapper own-classname" style="padding-bottom: 50px"></div>
+    <!--<div afkl-lazy-image="{{image.url}}"-->
+         <!--class="afkl-lazy-wrapper own-classname" style="padding-bottom: 50px"></div>-->
 
-    <!--<img hd-onerror="brokenImageHandler" hd-onload="onImageLoaded"-->
-         <!--ng-src="{{image.url}}" alt="blah" onError="this.remove();"-->
-         <!--style="max-width:1200px;">-->
+    <img hd-onerror="brokenImageHandler" hd-onload="onImageLoaded"
+         ng-src="{{image.url}}" alt="blah" onError="this.remove();"
+         style="max-width:1200px;">
   </div>
 
 
 </div>
 
 <!--<script defer src ="../client/mainController.js" ></script>-->
+<script src="index.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/oboe/dist/oboe-browser.js"></script>
-<script src="bower_components/ng-directive-lazy-image/release/lazy-image.js"></script>
-<script src="mainController.js"></script>
-<!--<script defer src ="../../bower_components/react/react.js" ></script>-->
-<!--<script defer src ="../../bower_components/react/react-dom.js" ></script>-->
-<!--<script defer src ="../../bower_components/react/react-with-addons.js" ></script>-->
-<!--<script defer src ="../../bower_components/react/react-dom-server.js" ></script>-->
+<!--<script src="bower_components/ng-directive-lazy-image/release/lazy-image.js"></script>-->
+<script src="scripts/mainController.js"></script>
 </body>
 </html>
