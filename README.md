@@ -18,11 +18,11 @@ open this url: localhost:3456
 - remove duplicated images
 - support gif pictures
 
-##
-oboe.js: loading JSON using streaming, combining the convenience of DOM with the speed and fluidity of SAX
-bluebird: a fully featured library
-cheerio: Fast, flexible, and lean implementation of core jQuery designed specifically for the server.
-express: Fast, unopinionated, minimalist web framework for node
+## Technologies and libraries.
+- oboe.js: loading JSON using streaming, combining the convenience of DOM with the speed and fluidity of SAX
+- bluebird: a fully featured library
+- cheerio: Fast, flexible, and lean implementation of core jQuery designed specifically for the server.
+- express: Fast, unopinionated, minimalist web framework for node
 
 
 ## Todo
