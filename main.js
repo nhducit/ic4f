@@ -7,7 +7,7 @@ var _ = require('lodash');
 var bodyParser = require('body-parser');
 var app = express();
 var port = 3000;
-
+// var memwatch = require('memwatch');
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -32,7 +32,6 @@ function sendAll(req, res) {
 }
 
 function streamResponse(req, res) {
-  var result ;
   var JSON_MIME_TYPE = "application/octet-stream";
   res.setHeader("Content-Type", JSON_MIME_TYPE);
   res.writeHead(200);
@@ -44,7 +43,6 @@ function streamResponse(req, res) {
         res.write(JSON.stringify({url: url}) + ',');
       }
     });
-
   }
   res.write('{"data": [');
   lib.getImagesInMultiplePage(req.body.url, req.body.config, handlePartial).then(function (images) {
@@ -68,3 +66,6 @@ app.listen(port, function () {
   console.log('Example app listening on port: ', port);
 });
 
+// memwatch.on('leak', function(info) {
+//   console.log('leak----------', info);
+// });
