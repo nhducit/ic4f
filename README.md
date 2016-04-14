@@ -26,6 +26,7 @@ open this url: localhost:3456
 
 
 ## Todo
+- [ ] Cancel server request when click cancel button on UI
 - [x] stream response
 - [x] use https
 - [ ] add nginx
