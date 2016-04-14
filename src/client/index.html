@@ -5,57 +5,91 @@
   <title>Title</title>
   <!--<link rel="stylesheet" type="text/css" href="bower_components/ng-directive-lazy-image/release/lazy-image-style.css">-->
   <link rel="stylesheet" type="text/css" href="index.css">
-</head>
-<body ng-app="myApp">
+  <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" type="text/css">
+  <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
 
+</head>
+<body ng-app="myApp" class="container">
 
 <div ng-controller="main">
-
-  <div>
-    <div>
-      URL: <input type="text" ng-model="url">
+  <div class="panel panel-success" style="margin-top: 20px">
+    <div class="panel-heading">
+      <h3 class="panel-title">Image Crawler</h3>
     </div>
-    <div>
-      First Page <input type="text" ng-model="config.firstPage">
+    <div class="panel-body">
+      <form>
+        <div class="form-group">
+          <label for="thread-link">URL:</label>
+          <input class="form-control" type="text" id="thread-link" placeholder="Forum Thread Link"
+                 ng-model="url">
+        </div>
+        <div class="form-group">
+          <label for="start-page">Start Page</label>
+          <input class="form-control" type="number" placeholder="Start Page" id="start-page"
+                 ng-model="config.firstPage">
+        </div>
+        <div class="form-group">
+          <label for="max-page"> Max Page</label>
+          <input class="form-control" id="max-page" type="number"
+                 ng-model="config.maxPage">
+        </div>
+        <button type="submit" class="btn btn-primary" ng-click="getImages()"> Get Images</button>
+        <button type="button" class="btn btn-danger" ng-click="cancelRequest()" ng-disabled="!state.isLoading"> Cancel Request</button>
+      </form>
+      <div style="margin-top: 15px">
+        <div>
+          Received {{images.length}} images:
+        </div>
+        <div>
+          {{images.length - counter.displayedImages - counter.brokenImage}} pending images:
+        </div>
+        <div>
+          Display {{counter.displayedImages || 0}} images:
+        </div>
+        <div>
+          {{counter.brokenImage}} broken images:
+        </div>
+      </div>
     </div>
-    <div>
-      Max Page: <input type="text" ng-model="config.maxPage">
-    </div>
-    <button type="button" ng-click="getImages()"> Get Images</button>
-  </div>
-  <div>
-    Received {{images.length}} images:
-  </div>
-  <div>
-    {{images.length - counter.displayedImages - counter.brokenImage}} pending images:
-  </div>
-  <div>
-    Display {{counter.displayedImages || 0}} images:
-  </div>
-  <div>
-    {{counter.brokenImage}} broken images:
   </div>
 
 
+  <!--<div>-->
+  <!--<div>-->
+  <!--URL: <input type="text" ng-model="url">-->
+  <!--</div>-->
+  <!--<div>-->
+  <!--First Page <input type="text" ng-model="config.firstPage">-->
+  <!--</div>-->
+  <!--<div>-->
+  <!--Max Page: <input type="text" ng-model="config.maxPage">-->
+  <!--</div>-->
+  <!--<button type="button" ng-click="getImages()"> Get Images</button>-->
+  <!--</div>-->
 
 
   <div ng-repeat="image in images track by image.url">
     <!--<div afkl-lazy-image="{{image.url}}"-->
-         <!--class="afkl-lazy-wrapper own-classname" style="padding-bottom: 50px"></div>-->
+    <!--class="afkl-lazy-wrapper own-classname" style="padding-bottom: 50px"></div>-->
 
-    <img hd-onerror="brokenImageHandler" hd-onload="onImageLoaded"
+    <img hd-on-error="brokenImageHandler" hd-onload="onImageLoaded"
          ng-src="{{image.url}}" alt="blah" onError="this.remove();"
-         style="max-width:1200px;">
+         style="max-width:100%;max-height:100%;height: auto;width:auto;">
   </div>
 
 
 </div>
 
 <!--<script defer src ="../client/mainController.js" ></script>-->
-<script src="index.js"></script>
+<!--<script src="index.js"></script>-->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/oboe/dist/oboe-browser.js"></script>
 <!--<script src="bower_components/ng-directive-lazy-image/release/lazy-image.js"></script>-->
 <script src="scripts/mainController.js"></script>
+<script src="scripts/hdOnError.directive.js"></script>
+<!--<script src="upup.min.js"></script>-->
+<!--<script>-->
+<!--UpUp.start({ content: 'Cannot reach site. Please check your internet connection.' });-->
+<!--</script>-->
 </body>
 </html>

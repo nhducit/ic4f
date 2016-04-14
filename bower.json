@@ -19,6 +19,7 @@
     "angular": "^1.5.2",
     "react": "^0.14.7",
     "oboe": "^2.1.2",
-    "ng-directive-lazy-image": "afkl-lazy-image#^0.3.1"
+    "ng-directive-lazy-image": "afkl-lazy-image#^0.3.1",
+    "bootstrap": "^3.3.6"
   }
 }

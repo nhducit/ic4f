@@ -1,30 +1,7 @@
 (function () {
   // angular.module('myApp', ['afkl.lazyImage'])
   angular.module('myApp', [])
-    .controller('main', mainController)
-    .directive('hdOnerror', hdOnerror);
-
-  function hdOnerror($parse) {
-    return {
-      restrict: 'A',
-      link: function ($scope, $elem, $attr) {
-        var elem = angular.element($elem);
-        elem.bind('error', function () {
-          var func = $parse($attr.hdOnerror)($scope);
-          $scope.$evalAsync(function () {
-            func();
-          })
-        });
-
-        elem.bind('load', function () {
-          var func = $parse($attr.hdOnload)($scope);
-          $scope.$evalAsync(function () {
-            func();
-          })
-        });
-      }
-    };
-  }
+    .controller('main', mainController);
 
 
   mainController.$inject = ['$http', '$scope'];
@@ -41,6 +18,8 @@
     $scope.images = [];
     $scope.imagesMap = {};
     $scope.maxPage = 10;
+    $scope.state = {};
+    $scope.state.isLoading = false;
     $scope.config = {
       maxPage: 1,
       firstPage: 1
@@ -55,12 +34,21 @@
     $scope.onImageLoaded = function () {
       $scope.counter.displayedImages++;
     };
+    var oboeObj = {};
+
+    $scope.cancelRequest = function () {
+      $scope.state.isLoading = false;
+      oboeObj && oboeObj.abort && oboeObj.abort();
+    };
+
     $scope.getImages = function () {
+      oboeObj && oboeObj.abort && oboeObj.abort();
       $scope.images = [];
       $scope.imagesMap = {};
       $scope.counter.brokenImage = 0;
       $scope.counter.displayedImages = 0;
-      oboe({
+      $scope.state.isLoading = true;
+      oboeObj = oboe({
         url: 'getImages',
         method: 'post',
         body: {
@@ -75,7 +63,15 @@
               $scope.images.push(image);
             });
           }
+        })
+        .done(function () {
+          $scope.state.isLoading = false;
+        })
+        .fail( function( errorReport ){
+          $scope.state.isLoading = false;
+          console.log('Error when loading data', errorReport)
         });
+
 
 //        $http.post('/getImages', {url: $scope.url, config: $scope.config}).then(function (successData) {
 //          $scope.images = successData.data.data;

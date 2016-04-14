@@ -6,11 +6,8 @@ var path = require('path');
 var _ = require('lodash');
 var bodyParser = require('body-parser');
 var app = express();
+var port = 3000;
 
-// https.createServer({
-//   key: fs.readFileSync('key.pem'),
-//   cert: fs.readFileSync('cert.pem')
-// }, app).listen(3333);
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -62,8 +59,12 @@ function streamResponse(req, res) {
   //   });
 }
 
+// https.createServer({
+//   key: fs.readFileSync('key.pem'),
+//   cert: fs.readFileSync('cert.pem')
+// }, app).listen(port);
 
-app.listen(3456, function () {
-  console.log('Example app listening on port 3456!');
+app.listen(port, function () {
+  console.log('Example app listening on port: ', port);
 });
 

@@ -20,7 +20,8 @@
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "request": "^2.69.0",
-    "request-promise": "^2.0.1"
+    "request-promise": "^2.0.1",
+    "upup": "^0.2.0"
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",
