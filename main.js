@@ -48,6 +48,7 @@ function streamResponse(req, res) {
   lib.getImagesInMultiplePage(req.body.url, req.body.config, handlePartial).then(function (images) {
     res.write('{"url":"https://workaround.com/test.jpg"}]}');
     res.end();
+    mapping = null;
     // result = images;
     // res.send(images);
   });

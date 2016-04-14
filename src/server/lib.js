@@ -93,7 +93,6 @@ function getImagesInMultiplePageTest(url, config) {
   // var promise = new Promise();
   _.times(config.maxPage, function (i) {
     pageUrl = getPageUrl(url, _config.firstPage + i);
-    console.log('pageUrl', pageUrl);
     promises.push(getImagesInOnePage(pageUrl));
   });
   return Promise.all(promises).then(function (array) {
@@ -122,20 +121,22 @@ function getImagesInMultiplePage(url, config, progressFn) {
   // var promise = new Promise();
   _.times(config.maxPage, function (i) {
     pageUrl = getPageUrl(url, _config.firstPage + i);
-    console.log('pageUrl', pageUrl);
-    promises.push(getImagesInOnePage(pageUrl).then(function (successData) {
-      progressFn(successData);
-      return successData;
-    }));
+    var promise = getImagesInOnePage(pageUrl)
+      .then(function (successData) {
+        progressFn(successData);
+        return successData;
+      });
+    promises.push(promise);
   });
-  return Promise.all(promises).then(function (array) {
-    var result = [];
-    _.forEach(array, function (images) {
-      result = result.concat(images);
+  return Promise.all(promises)
+    .then(function (array) {
+      var result = [];
+      _.forEach(array, function (images) {
+        result = result.concat(images);
+      });
+      result = _.uniq(result);
+      return result;
     });
-    result = _.uniq(result);
-    return result;
-  });
 }
 
 /**
