@@ -6,6 +6,7 @@ Clone this repository.
 
 ```
 npm install
+bower install
 npm start
 ```
 open this url: localhost:3456
@@ -35,5 +36,5 @@ open this url: localhost:3456
 - [x] apply service worker
 - [ ] apply web worker
 - [ ] lazy load images
-- [ ] cancel request in service worker. reproduce steps: get images from 100 pages, repeat the request. 
+- [ ] cancel request in service worker. reproduce steps: get images from 100 pages, repeat the request.
 expected behavior, second request should stop service worker fetch on going  request
